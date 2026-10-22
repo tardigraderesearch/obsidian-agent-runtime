@@ -15,17 +15,17 @@ that way:
 |---|---|
 | **`vault_search` MCP server** | SQLite FTS5 index with BM25 ranking, chunked per `##` section; incremental reindex; stdio MCP server exposing `vault_search` and `vault_reindex`. |
 | **`CLAUDE.md` adapter** | A thin runtime adapter that `@`-imports the vault's own `README.md` (the canonical rules) and adds only Claude Code-specific facts. |
-| **SessionStart hook** | Re-injects `STATE/working-context.md` on startup, resume, `/clear` and after compaction, so the agent always knows the current task. |
-| **PostToolUse hook** | Re-indexes a note the moment Claude writes or edits it (milliseconds, single file). |
-| **`vault-recall` / `vault-memory` subagents** | Memory reads and writes run in subagents, so search dumps and filing work never bloat the main conversation. |
+| **SessionStart hook** | Loads the saved working context at startup, resume, `/clear` and after compaction. |
+| **PostToolUse hook** | Re-indexes the affected note after successful Write/Edit tool calls. Other changes (shell, Obsidian, git) are picked up before a later search once the refresh interval has passed (default 60 s). |
+| **`vault-recall` / `vault-memory` subagents** | Memory reads and writes run in subagents, keeping intermediate tool output out of the main conversation. |
 | **Idle watcher** | Parks an idle long-running session's transcript into the vault, then `/clear`s it. Includes an `on_park` hook point for your own post-processing. |
 
 It is deliberately small: one dependency for MCP, one for YAML frontmatter, no embeddings,
-no network calls, no background daemon.
+no background daemon. The indexer and MCP server make no network requests of their own; when Claude Code reads retrieved notes, that content goes to your configured model provider like any other context.
 
 ## Quickstart (about 5 minutes)
 
-Requires Python 3.11+ (SQLite with FTS5, which standard CPython builds include).
+Requires Python 3.11+ with SQLite FTS5 support (standard CPython builds include it), and Claude Code installed and signed in for step 2. Commands assume a POSIX shell.
 
 ```bash
 git clone https://github.com/evilhobo1911/obsidian-agent-runtime
@@ -122,8 +122,7 @@ Approve the `vault` MCP server when prompted, then try:
 
 ## Wiring into Claude Code by hand
 
-`obsidian-agent-runtime init <vault>` writes all of this for you (it never overwrites
-existing files unless `--force`). To do it manually:
+`obsidian-agent-runtime init <vault>` writes all of this for you (it skips any file that already exists, with no merging, and `--force` overwrites those files entirely, so back up an existing `.mcp.json`, `.claude/settings.json` or `CLAUDE.md` first). To do it manually:
 
 `.mcp.json` in the vault root:
 
@@ -192,14 +191,18 @@ For a long-lived session (for example one kept running in tmux and reached remot
 4. sends `/clear` to the tmux target, so the next conversation starts clean and the
    SessionStart hook re-injects the working context.
 
+Run these from the cloned repository root (the quickstart left you in the demo vault). The watcher needs Linux, tmux and a systemd user manager.
+
 ```bash
+cd /path/to/obsidian-agent-runtime
+mkdir -p ~/.config/systemd/user
 watcher/start-session.sh ~/my-vault assistant          # tmux session "assistant" running claude
 python3 watcher/idle_watcher.py --vault ~/my-vault --tmux-target assistant --dry-run --force
 cp watcher/systemd/oar-idle-watcher.* ~/.config/systemd/user/   # edit paths first
 systemctl --user daemon-reload && systemctl --user enable --now oar-idle-watcher.timer
 ```
 
-It is stdlib-only and keeps a small state file so a conversation is never parked twice.
+It is stdlib-only and tracks previously parked content in a local state file to avoid duplicate parking.
 
 ## Limitations
 
@@ -216,13 +219,14 @@ It is stdlib-only and keeps a small state file so a conversation is never parked
   `--match` option reads `/proc` (Linux).
 - **Secrets.** Folders named `credentials/` are skipped, but anything else in the vault is
   indexed and readable by the agent. Keep secrets out of notes.
-- Tested on Linux with Python 3.11 to 3.14. macOS should work; Windows is untested.
+- CI tests Python 3.11 and 3.12 on Linux; also run locally on 3.14. Not yet tested inside an interactive Claude Code session beyond the hooks and MCP server. macOS should work; Windows is untested.
 
 ## Development
 
 ```bash
-pip install -e '.[test]'
-pytest -q
+cd /path/to/obsidian-agent-runtime
+.venv/bin/python -m pip install -e '.[test]'
+.venv/bin/python -m pytest -q
 ```
 
 ## License
