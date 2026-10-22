@@ -1,0 +1,10 @@
+[Unit]
+Description=Check the Claude Code vault session for idleness every 10 minutes
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=10min
+Unit=oar-idle-watcher.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,14 @@
+# Copy to ~/.config/systemd/user/ and adjust the paths, then:
+#   systemctl --user daemon-reload && systemctl --user enable --now oar-idle-watcher.timer
+[Unit]
+Description=Park idle Claude Code vault session and /clear it
+
+[Service]
+Type=oneshot
+# %h = your home directory. Point these at your checkout and your vault.
+Environment=OAR_VAULT=%h/my-vault
+Environment=OAR_IDLE_MIN=180
+Environment=OAR_TMUX_TARGET=assistant
+# Optional: a command run with each parked transcript's path (see on_park in the script).
+# Environment=OAR_ON_PARK=%h/bin/my-summarizer
+ExecStart=/usr/bin/env python3 %h/obsidian-agent-runtime/watcher/idle_watcher.py
