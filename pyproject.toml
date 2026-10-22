@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "obsidian-agent-runtime"
+version = "0.1.0"
+description = "Turn a markdown (Obsidian) vault into persistent, searchable memory for Claude Code: FTS5 search MCP server, hooks, subagents and an idle-session watcher."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "evilhobo1911" }]
+requires-python = ">=3.11"
+keywords = ["claude-code", "mcp", "obsidian", "memory", "sqlite", "fts5", "bm25", "agents"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: MacOS",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Text Processing :: Indexing",
+]
+dependencies = [
+  "mcp>=1.2",
+  "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[project.urls]
+Homepage = "https://github.com/evilhobo1911/obsidian-agent-runtime"
+Issues = "https://github.com/evilhobo1911/obsidian-agent-runtime/issues"
+
+[project.scripts]
+obsidian-agent-runtime = "obsidian_agent_runtime.cli:main"
+oar = "obsidian_agent_runtime.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/obsidian_agent_runtime"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"templates" = "obsidian_agent_runtime/templates"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "templates", "watcher", "demo-vault", "tests", "README.md", "LICENSE", "CHANGELOG.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
