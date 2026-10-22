@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "vault": {
+      "type": "stdio",
+      "command": "{{PYTHON}}",
+      "args": ["-m", "obsidian_agent_runtime", "serve"],
+      "env": { "OAR_VAULT": "{{VAULT}}" }
+    }
+  }
+}
