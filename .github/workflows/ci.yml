@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: python -m pip install --upgrade pip && pip install ".[test]"
+      - name: Test
+        run: pytest -q
+      - name: CLI smoke test against the demo vault
+        run: |
+          export XDG_CACHE_HOME="$RUNNER_TEMP/cache"
+          obsidian-agent-runtime --help
+          obsidian-agent-runtime index --vault demo-vault
+          obsidian-agent-runtime search --vault demo-vault "capacitive probes"
