@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+*.db
+*.db-wal
+*.db-shm
+# Files `oar init` would write if run directly on the bundled demo vault
+demo-vault/.mcp.json
+demo-vault/.claude/
+demo-vault/CLAUDE.md
