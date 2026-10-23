@@ -1,6 +1,6 @@
 # obsidian-agent-runtime
 
-[![CI](https://github.com/evilhobo1911/obsidian-agent-runtime/actions/workflows/ci.yml/badge.svg)](https://github.com/evilhobo1911/obsidian-agent-runtime/actions/workflows/ci.yml)
+[![CI](https://github.com/tardigraderesearch/obsidian-agent-runtime/actions/workflows/ci.yml/badge.svg)](https://github.com/tardigraderesearch/obsidian-agent-runtime/actions/workflows/ci.yml)
 
 Turn a plain markdown vault (an Obsidian vault, or any folder of `.md` notes) into
 persistent, searchable memory for [Claude Code](https://docs.claude.com/en/docs/claude-code).
@@ -28,7 +28,7 @@ no background daemon. The indexer and MCP server make no network requests of the
 Requires Python 3.11+ with SQLite FTS5 support (standard CPython builds include it), and Claude Code installed and signed in for step 2. Commands assume a POSIX shell.
 
 ```bash
-git clone https://github.com/evilhobo1911/obsidian-agent-runtime
+git clone https://github.com/tardigraderesearch/obsidian-agent-runtime
 cd obsidian-agent-runtime
 python3 -m venv .venv && . .venv/bin/activate
 pip install .
