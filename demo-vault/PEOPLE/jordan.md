@@ -15,4 +15,4 @@ The (fictional) human this vault belongs to.
 
 ## Related
 
-- Friend and collaborator: [[PEOPLE/priya]]
+- Friend and collaborator: [[PEOPLE/Elisabeth]]
