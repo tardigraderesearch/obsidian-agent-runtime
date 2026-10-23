@@ -1,4 +1,4 @@
-# Priya
+# Elisabeth
 
 Jordan's friend. Electronics hobbyist; lent the oscilloscope listed in
 [[REFERENCE/workshop-tools]].
