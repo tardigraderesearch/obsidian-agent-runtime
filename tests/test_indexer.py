@@ -77,8 +77,8 @@ def test_incremental_reindex(settings, vault):
     again = build_index(settings)
     assert again.indexed_files == 0 and again.unchanged == 16
 
-    note = vault / "PEOPLE/priya.md"
-    note.write_text(note.read_text() + "\n## New\nPriya now keeps bees.\n")
+    note = vault / "PEOPLE/elisabeth.md"
+    note.write_text(note.read_text() + "\n## New\nElisabeth now keeps bees.\n")
     os.utime(note, (time.time() + 5, time.time() + 5))
     (vault / "PROJECTS/bike-rebuild.md").unlink()
     (vault / "REFERENCE/new-note.md").write_text("# New note\nhello\n")

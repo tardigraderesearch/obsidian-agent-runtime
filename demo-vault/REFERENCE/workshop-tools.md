@@ -4,7 +4,7 @@
 
 - Multimeter
 - Soldering station
-- Oscilloscope (borrowed from [[PEOPLE/priya]]; return by end of April)
+- Oscilloscope (borrowed from [[PEOPLE/elisabeth]]; return by end of April)
 
 ## Bike
 

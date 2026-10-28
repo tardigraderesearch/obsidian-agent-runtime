@@ -6,7 +6,7 @@ status: ongoing
 
 ## Starter
 
-- Descended from [[PEOPLE/priya]]'s starter (2026-01).
+- Descended from [[PEOPLE/elisabeth]]'s starter (2026-01).
 - Feed ratio 1:5:5 (starter:flour:water) since 2026-03-09; previously 1:2:2.
   The 1:2:2 ratio peaked too fast in a warm kitchen.
 - Peaks in about 6 hours at 24 C.

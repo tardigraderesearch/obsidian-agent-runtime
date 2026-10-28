@@ -5,7 +5,7 @@ Append-only. Decision, date, reason.
 ## 2026-02-20: capacitive soil probes
 
 Chose capacitive over resistive probes for [[PROJECTS/greenhouse-controller]].
-Reason: resistive probes corrode within weeks in wet soil. Suggested by [[PEOPLE/priya]].
+Reason: resistive probes corrode within weeks in wet soil. Suggested by [[PEOPLE/elisabeth]].
 
 ## 2026-03-02: level shifter on the relay line
 

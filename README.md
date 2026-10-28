@@ -50,7 +50,7 @@ Approve the `vault` MCP server when prompted, then try:
 - "What am I working on?" (answered from the injected working context)
 - "Why did we choose capacitive probes?" (the agent spawns `vault-recall`, which calls `vault_search`)
 - "Remember that Elisabeth is returning the oscilloscope on April 20." (the agent spawns
-  `vault-memory`, which updates `PEOPLE/priya.md` or `REFERENCE/workshop-tools.md`; the
+  `vault-memory`, which updates `PEOPLE/elisabeth.md` or `REFERENCE/workshop-tools.md`; the
   PostToolUse hook makes the edit searchable immediately)
 
 `oar` is a short alias for `obsidian-agent-runtime`.
